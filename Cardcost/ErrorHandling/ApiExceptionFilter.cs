@@ -15,13 +15,13 @@ namespace Cardcost.ErrorHandling
                 // handle explicit 'known' API errors
                 var ex = context.Exception as ApiException;
                 context.Exception = null;
-                apiError = new ApiError(ex.Message);
+                //apiError = new ApiError(ex.Message);
                 //apiError.errors = ex.Errors;
 
                 context.HttpContext.Response.StatusCode = ex.StatusCode;
                 //
-                _logger.LogError("API error. ExceptionType = {ExceptionType}, StatusCode={StatusCode}, Error={Error}", "ApiException",
-                    ex.StatusCode, ex.Message);
+                //_logger.LogError("API error. ExceptionType = {ExceptionType}, StatusCode={StatusCode}, Error={Error}", "ApiException",
+                //    ex.StatusCode, ex.Message);
             }
 
             base.OnException(context);
