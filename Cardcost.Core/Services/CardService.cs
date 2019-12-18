@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +20,36 @@ namespace Cardcost.Core.Services
             _httpClient = httpClient;
         }
 
-        public async Task<CardInfo> GetCardInfo(string cardNum)
+        public async Task<Tuple<HttpStatusCode, int>> GetCardInfo(string cardNum)
         {
-            //var uri = API.Catalog.GetAllCatalogItems(_remoteServiceBaseUrl,
-            //    page, take, brand, type);
+            //
+            cardNum = cardNum.Replace(" ", "").Trim();
+
+            var responseStatusCode = await _httpClient.GetAsync($"https://lookup.binlist.net/{cardNum}");
+            
+            if (responseStatusCode.StatusCode != HttpStatusCode.OK)
+                return new Tuple<HttpStatusCode, int>(responseStatusCode.StatusCode, 0);
 
             var responseString = await _httpClient.GetStringAsync($"https://lookup.binlist.net/{cardNum}");
 
-            var catalog = JsonConvert.DeserializeObject<CardInfo>(responseString);
-            return catalog;
+            var cardInfo = JsonConvert.DeserializeObject<CardInfo>(responseString);
+
+            int cost = 0;
+
+            switch (cardInfo.Country.CountryCode)
+            {
+                case "GR":
+                    cost = 15;
+                    break;
+                case "US":
+                    cost = 5;
+                    break;
+                default:
+                    cost = 10;
+                    break;
+            }
+
+            return new Tuple<HttpStatusCode, int>(responseStatusCode.StatusCode, cost);
         }
     }
 }
