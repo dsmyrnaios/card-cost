@@ -10,5 +10,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cardcost.Core\Cardcost.Core.csproj" />
+    <ProjectReference Include="..\Cardcost.Domain\Cardcost.Domain.csproj" />
+  </ItemGroup>
+
 
 </Project>

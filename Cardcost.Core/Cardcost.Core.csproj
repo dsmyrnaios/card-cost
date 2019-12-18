@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cardcost.Domain\Cardcost.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
