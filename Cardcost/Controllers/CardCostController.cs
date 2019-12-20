@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Cardcost.Core.Services.interfaces;
+using Cardcost.Core.ValidationRules.Interfaces;
 using Cardcost.Domain;
 using Cardcost.ErrorHandling;
 using Microsoft.AspNetCore.Http;
@@ -20,22 +21,23 @@ namespace Cardcost.Controllers
     {
         private readonly ILogger<CardCostController> _logger;
         private readonly ICardService _cardService;
+        private readonly IValidateCardNumber _validateCardNumber;
 
-        public CardCostController(ILogger<CardCostController> logger, ICardService cardService)
+        public CardCostController(ILogger<CardCostController> logger, ICardService cardService, IValidateCardNumber validateCardNumber)
         {
             _logger = logger;
             _cardService = cardService;
+            _validateCardNumber = validateCardNumber;
         }
 
         [HttpPost, Route("payment_cards_cost")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public virtual async Task<IActionResult> Post([FromBody]Card Card)
+        public async Task<IActionResult> Post([FromBody]Card Card)
         {
-            //Check if
-            if (String.IsNullOrWhiteSpace(Card.CardNumber))
-                throw new Exception("No data was given");
+            //Validation
+            var validation = _validateCardNumber.Validate(Card.CardNumber);
 
             //if(String.IsNullOrWhiteSpace(cardNum))
             var a = await _cardService.GetCardInfo(Card.CardNumber);

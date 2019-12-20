@@ -30,6 +30,7 @@ namespace Cardcost
         {
             services.AddControllers();
             services.AddHttpClient<ICardService, CardService>();
+            services.adds
             services.AddScoped<ApiExceptionFilter>();
         }
 

@@ -30,9 +30,9 @@ namespace Cardcost.Core.Services
             if (responseStatusCode.StatusCode != HttpStatusCode.OK)
                 return new Tuple<HttpStatusCode, int>(responseStatusCode.StatusCode, 0);
 
-            var responseString = await _httpClient.GetStringAsync($"https://lookup.binlist.net/{cardNum}");
+            //var responseString = await _httpClient.GetStringAsync($"https://lookup.binlist.net/{cardNum}");
 
-            var cardInfo = JsonConvert.DeserializeObject<CardInfo>(responseString);
+            var cardInfo = JsonConvert.DeserializeObject<CardInfo>(responseStatusCode.Content.ToString());
 
             int cost = 0;
 
