@@ -37,9 +37,8 @@ namespace Cardcost.Controllers
         public async Task<IActionResult> Post([FromBody]Card Card)
         {
             //Validation
-            var validation = _validateCardNumber.Validate(Card.CardNumber);
+            var validation = await _validateCardNumber.Validate(Card.CardNumber);
 
-            //if(String.IsNullOrWhiteSpace(cardNum))
             var a = await _cardService.GetCardInfo(Card.CardNumber);
 
             if (a.Item1 == HttpStatusCode.NotFound)

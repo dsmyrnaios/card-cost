@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cardcost.Core.Services;
 using Cardcost.Core.Services.interfaces;
+using Cardcost.Core.ValidationRules;
+using Cardcost.Core.ValidationRules.Interfaces;
 using Cardcost.ErrorHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +32,8 @@ namespace Cardcost
         {
             services.AddControllers();
             services.AddHttpClient<ICardService, CardService>();
-            services.adds
             services.AddScoped<ApiExceptionFilter>();
+            services.AddScoped<IValidateCardNumber, ValidateCardNumber>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
