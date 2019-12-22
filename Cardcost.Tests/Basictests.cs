@@ -31,19 +31,19 @@ namespace Cardcost.Tests
             _cardCostController = new CardCostController(logger.Object, _cardService.Object, _validateCardNumber.Object);
         }
 
-
+        
         [Theory]
         [InlineData("51683800")]
         [InlineData("516838")]
-        [InlineData("5168")]
-        public async Task Test1(string cardnum)
+        [InlineData("11111111")]
+        public async Task StatusCodeAccepted_Greek_Card_Test(string cardNum)
         {
-            _cardService.Setup(service => service.GetCardInfo(It.IsAny<string>()))
-                .Returns<string>(parameters => Task.FromResult(new Tuple<HttpStatusCode, int>(HttpStatusCode.Accepted, 10)));
             _validateCardNumber.Setup(service => service.Validate(It.IsAny<string>()))
-                .Returns<string>(parameters => Task.FromResult(false));
-            var card = new Card() { CardNumber = cardnum };
-            //var postData = new StringContent(JsonConvert.SerializeObject(card), Encoding.UTF8, "application/json");
+                .Returns<string>(parameters => Task.FromResult(true));
+            _cardService.Setup(service => service.GetCardInfo(It.IsAny<string>()))
+                .Returns<string>(parameters => Task.FromResult(It.IsAny<int>()));
+            
+            var card = new Card() { CardNumber = cardNum };
             //
             var response = await _cardCostController.Post(card);
             //
@@ -51,11 +51,6 @@ namespace Cardcost.Tests
             var viewResult = Assert.IsType<OkObjectResult>(response);
             Assert.Equal(200, viewResult.StatusCode);
             //
-            //var responseString = await response.Content.ReadAsStringAsync();
-            //var jsonResponse = JsonConvert.DeserializeObject<int>(responseString);
-
-            //Assert.Equal(jsonResponse,actual: 10);
-
         }
 
         

@@ -13,25 +13,33 @@ namespace Cardcost.Core.Services
     public class CardService: ICardService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _remoteServiceBaseUrl;
+        private readonly string _remoteServiceBaseUrl = "https://lookup.binlist.net/";
 
         public CardService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<Tuple<HttpStatusCode, int>> GetCardInfo(string cardNum)
+        public async Task<int> GetCardInfo(string cardNum)
         {
-            //
+            //trim the string and remove all space characters
             cardNum = cardNum.Replace(" ", "").Trim();
 
-            var responseStatusCode = await _httpClient.GetAsync($"https://lookup.binlist.net/{cardNum}");
-            
-            if (responseStatusCode.StatusCode != HttpStatusCode.OK)
-                return new Tuple<HttpStatusCode, int>(responseStatusCode.StatusCode, 0);
+            var response = await _httpClient.GetAsync($"{_remoteServiceBaseUrl}{cardNum}");
 
-            var responseString = await _httpClient.GetStringAsync($"https://lookup.binlist.net/{cardNum}");
-            var cardInfo = JsonConvert.DeserializeObject<CardInfo>(responseString);
+            try
+            {
+                //Check if the api returns accepted status code 
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                throw  new ApiException(ex, (int)response.StatusCode);
+            }
+
+            //
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var cardInfo = JsonConvert.DeserializeObject<CardInfo>(responseBody);
 
             int cost = 0;
 
@@ -48,7 +56,7 @@ namespace Cardcost.Core.Services
                     break;
             }
 
-            return new Tuple<HttpStatusCode, int>(responseStatusCode.StatusCode, cost);
+            return cost;
         }
     }
 }

@@ -6,6 +6,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Cardcost.Domain
 {
+    [JsonObject]
     public class Card
     {
         [JsonProperty("card_number")]

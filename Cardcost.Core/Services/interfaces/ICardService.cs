@@ -9,6 +9,6 @@ namespace Cardcost.Core.Services.interfaces
 {
     public interface ICardService
     {
-        Task<Tuple<HttpStatusCode, int>> GetCardInfo(string cardNum);
+        Task<int> GetCardInfo(string cardNum);
     }
 }

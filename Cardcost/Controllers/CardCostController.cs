@@ -38,16 +38,10 @@ namespace Cardcost.Controllers
         {
             //Validation
             var validation = await _validateCardNumber.Validate(Card.CardNumber);
-
-            var a = await _cardService.GetCardInfo(Card.CardNumber);
-
-            if (a.Item1 == HttpStatusCode.NotFound)
-                return NotFound();
-
-            if (a.Item1 == HttpStatusCode.BadRequest)
-                return BadRequest();
-
-            return Ok(a.Item2);
+            //Get the cost using public api and card number
+            var cost = await _cardService.GetCardInfo(Card.CardNumber);
+            
+            return Ok(cost);
         }
     }
 }

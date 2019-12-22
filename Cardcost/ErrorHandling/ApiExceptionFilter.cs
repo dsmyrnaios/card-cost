@@ -12,7 +12,7 @@ namespace Cardcost.ErrorHandling
     {
         public override void OnException(ExceptionContext context)
         {
-            ApiError apiError = null;
+            ApiError apiError;
 
             if (context.Exception is ApiException)
             {
@@ -38,24 +38,6 @@ namespace Cardcost.ErrorHandling
             context.Result = new JsonResult(apiError);
 
             base.OnException(context);
-        }
-
-        public class ApiException : Exception
-        {
-            public int StatusCode { get; set; }
-
-            //public ValidationErrorCollection Errors { get; set; }
-
-            public ApiException(string message, int statusCode = 500 /*ValidationErrorCollection errors = null*/) : base(message)
-            {
-                StatusCode = statusCode;
-                //Errors = errors;
-            }
-
-            public ApiException(Exception ex, int statusCode = 500) : base(ex.Message)
-            {
-                StatusCode = statusCode;
-            }
         }
     }
 }
