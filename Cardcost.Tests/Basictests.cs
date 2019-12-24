@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Cardcost.Controllers;
+using Cardcost.Core.Services;
 using Cardcost.Core.Services.interfaces;
 using Cardcost.Core.ValidationRules.Interfaces;
 using Cardcost.Domain;
@@ -22,13 +23,15 @@ namespace Cardcost.Tests
         private CardCostController _cardCostController;
         private Mock<ICardService> _cardService;
         private Mock<IValidateCardNumber> _validateCardNumber;
+        private Mock<RedisService> _redisService;
 
         public BasicTests()
         {
             _cardService = new Mock<ICardService>();
             _validateCardNumber = new Mock<IValidateCardNumber>();
+            _redisService = new Mock<RedisService>();
             var logger = new Mock<ILogger<CardCostController>>();
-            _cardCostController = new CardCostController(logger.Object, _cardService.Object, _validateCardNumber.Object);
+            _cardCostController = new CardCostController(logger.Object, _cardService.Object, _validateCardNumber.Object, _redisService.Object);
         }
 
         
@@ -42,7 +45,9 @@ namespace Cardcost.Tests
                 .Returns<string>(parameters => Task.FromResult(true));
             _cardService.Setup(service => service.GetCardInfo(It.IsAny<string>()))
                 .Returns<string>(parameters => Task.FromResult(It.IsAny<int>()));
-            
+            _redisService.Setup(service => service.Get(It.IsAny<string>()))
+                .Returns<string>(parameters => Task.FromResult(It.IsAny<string>()));
+
             var card = new Card() { CardNumber = cardNum };
             //
             var response = await _cardCostController.Post(card);

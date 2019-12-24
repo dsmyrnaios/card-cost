@@ -25,6 +25,7 @@ namespace Cardcost.Core.Services
             //trim the string and remove all space characters
             cardNum = cardNum.Replace(" ", "").Trim();
 
+            //Get the response from public API
             var response = await _httpClient.GetAsync($"{_remoteServiceBaseUrl}{cardNum}");
 
             try
@@ -37,7 +38,7 @@ namespace Cardcost.Core.Services
                 throw  new ApiException(ex, (int)response.StatusCode);
             }
 
-            //
+            //Get the response body as string and deserialize it to card info class
             var responseBody = await response.Content.ReadAsStringAsync();
             var cardInfo = JsonConvert.DeserializeObject<CardInfo>(responseBody);
 
