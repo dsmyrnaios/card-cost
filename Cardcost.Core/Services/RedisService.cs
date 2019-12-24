@@ -30,8 +30,9 @@ namespace Cardcost.Core.Services
         {
             try
             {
-                var configString = $"{_redisHost}:{_redisPort},connectRetry=5"; //the number of the retries for redis
+                var configString = $"{_redisHost}:{_redisPort},connectRetry=5,resolveDns=true"; //the number of the retries for redis
                 _redis = ConnectionMultiplexer.Connect(configString);
+                
             }
             catch (RedisConnectionException err)
             {

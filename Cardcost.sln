@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cardcost.Domain", "Cardcost
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cardcost.Core", "Cardcost.Core\Cardcost.Core.csproj", "{E4D23FD2-418F-4FDE-A329-2BC09DF0773C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardcost.Tests", "Cardcost.Tests\Cardcost.Tests.csproj", "{9F17B9B5-229B-4EFD-BFD5-08C292437BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cardcost.Tests", "Cardcost.Tests\Cardcost.Tests.csproj", "{9F17B9B5-229B-4EFD-BFD5-08C292437BFB}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{726AC9E2-DB0F-4D68-B74A-2A335B585849}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9F17B9B5-229B-4EFD-BFD5-08C292437BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F17B9B5-229B-4EFD-BFD5-08C292437BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F17B9B5-229B-4EFD-BFD5-08C292437BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{726AC9E2-DB0F-4D68-B74A-2A335B585849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{726AC9E2-DB0F-4D68-B74A-2A335B585849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{726AC9E2-DB0F-4D68-B74A-2A335B585849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{726AC9E2-DB0F-4D68-B74A-2A335B585849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

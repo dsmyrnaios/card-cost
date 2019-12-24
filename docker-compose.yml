@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  cardcost:
+    image: ${DOCKER_REGISTRY-}cardcost
+    build:
+      context: .
+      dockerfile: Cardcost/Dockerfile
+  redis:
+    image: redis
+    ports:
+      - "6380:6379"
+    expose:
+      - "6380"
+    
