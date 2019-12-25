@@ -7,9 +7,11 @@ services:
       context: .
       dockerfile: Cardcost/Dockerfile
   redis:
-    image: redis
+    container_name: redis
+    hostname: redis
+    image: sameersbn/redis:4.0.9-2    
     ports:
-      - "6380:6379"
+      - "6379:6379"
     expose:
-      - "6380"
+      - "6379"
     

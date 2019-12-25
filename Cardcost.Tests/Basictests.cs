@@ -23,15 +23,15 @@ namespace Cardcost.Tests
         private CardCostController _cardCostController;
         private Mock<ICardService> _cardService;
         private Mock<IValidateCardNumber> _validateCardNumber;
-        private Mock<RedisService> _redisService;
+//        private Mock<RedisService> _redisService;
 
         public BasicTests()
         {
             _cardService = new Mock<ICardService>();
             _validateCardNumber = new Mock<IValidateCardNumber>();
-            _redisService = new Mock<RedisService>();
+//            _redisService = new Mock<RedisService>();
             var logger = new Mock<ILogger<CardCostController>>();
-            _cardCostController = new CardCostController(logger.Object, _cardService.Object, _validateCardNumber.Object, _redisService.Object);
+            _cardCostController = new CardCostController(logger.Object, _cardService.Object, _validateCardNumber.Object/*, _redisService.Object*/);
         }
 
         
@@ -45,8 +45,8 @@ namespace Cardcost.Tests
                 .Returns<string>(parameters => Task.FromResult(true));
             _cardService.Setup(service => service.GetCardInfo(It.IsAny<string>()))
                 .Returns<string>(parameters => Task.FromResult(It.IsAny<int>()));
-            _redisService.Setup(service => service.Get(It.IsAny<string>()))
-                .Returns<string>(parameters => Task.FromResult(It.IsAny<string>()));
+            //_redisService.Setup(service => service.Get(It.IsAny<string>()))
+            //    .Returns<string>(parameters => Task.FromResult(It.IsAny<string>()));
 
             var card = new Card() { CardNumber = cardNum };
             //

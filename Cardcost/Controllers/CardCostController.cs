@@ -23,14 +23,14 @@ namespace Cardcost.Controllers
         private readonly ILogger<CardCostController> _logger;
         private readonly ICardService _cardService;
         private readonly IValidateCardNumber _validateCardNumber;
-        private readonly RedisService _redisService;
+        //private readonly RedisService _redisService;
 
-        public CardCostController(ILogger<CardCostController> logger, ICardService cardService, IValidateCardNumber validateCardNumber, RedisService redisService)
+        public CardCostController(ILogger<CardCostController> logger, ICardService cardService, IValidateCardNumber validateCardNumber/*, RedisService redisService*/)
         {
             _logger = logger;
             _cardService = cardService;
             _validateCardNumber = validateCardNumber;
-            _redisService = redisService;
+            //_redisService = redisService;
         }
 
         [HttpPost, Route("payment_cards_cost")]
@@ -44,19 +44,22 @@ namespace Cardcost.Controllers
             //
             int cost = 0;
             var cardNumber = card.CardNumber.Replace(" ", "").Trim();
-            var existingCardCost = await _redisService.Get(cardNumber.Substring(0,6));
-            if (String.IsNullOrEmpty(existingCardCost))
-            {
-                //Get the cost using public api and card number
-                cost = await _cardService.GetCardInfo(card.CardNumber);
-                //Save the firts 6 digits to redis in order to get in the future
-                await _redisService.Set(cardNumber.Substring(0, 6), cost.ToString());
-            }
-            else
-            {
-                cost = Convert.ToInt32(existingCardCost);
-            }
+            //var existingCardCost = await _redisService.Get(cardNumber.Substring(0,6));
+            //if (String.IsNullOrEmpty(existingCardCost))
+            //{
+            //    //Get the cost using public api and card number
+            //    cost = await _cardService.GetCardInfo(cardNumber);
+            //    //Save the firts 6 digits to redis in order to get in the future
+            //    await _redisService.Set(cardNumber.Substring(0, 6), cost.ToString());
+            //}
+            //else
+            //{
+            //    cost = Convert.ToInt32(existingCardCost);
+            //}
 
+            //Get the cost using public api and card number
+            cost = await _cardService.GetCardInfo(cardNumber);
+            
             return Ok(cost);
         }
     }

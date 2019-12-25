@@ -35,14 +35,14 @@ namespace Cardcost
             services.AddHttpClient<ICardService, CardService>();
             services.AddScoped<ApiExceptionFilter>();
             services.AddScoped<IValidateCardNumber, ValidateCardNumber>();
-            services.AddSingleton<RedisService>();
+            //services.AddSingleton<RedisService>();
 
             //Redis configuration
             //ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost:6379");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RedisService redisService)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, RedisService redisService*/)
         {
             if (env.IsDevelopment())
             {
@@ -55,7 +55,7 @@ namespace Cardcost
 
             app.UseAuthorization();
 
-            redisService.Connect();
+            //redisService.Connect();
 
             app.UseEndpoints(endpoints =>
             {
